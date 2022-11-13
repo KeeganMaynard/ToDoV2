@@ -5,10 +5,9 @@ import java.util.Date;
 public class ToDo {
     private int id;
     private String task;
-    //what type should I make this
-    private Date dueDate;
+    private String dueDate;
 
-    public ToDo(int newID, String newTask, Date newDate)
+    public ToDo(int newID, String newTask, String newDate)
     {
         setId(newID);
         setTask(newTask);
@@ -23,7 +22,7 @@ public class ToDo {
 
     public void setTask(String task) {this.task = task;}
 
-    public Date getDueDate() {return dueDate;}
+    public String getDueDate() {return dueDate;}
 
-    public void setDueDate(Date dueDate) {this.dueDate = dueDate;}
+    public void setDueDate(String dueDate) {this.dueDate = dueDate;}
 }

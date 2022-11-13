@@ -14,6 +14,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final String TABLE_TASKS = "tasks";
     private static final String ID = "id";
     private static final String TASK = "task";
+    private static final String DUE_DATE = "due_date";
 
     public DatabaseManager(Context context)
     {
@@ -24,7 +25,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     {
         String sqlCreate = "create table " + TABLE_TASKS + "( " + ID;
         sqlCreate += " integer primary key autoincrement, " + TASK;
-        sqlCreate += " text)";
+        sqlCreate += " text, " + DUE_DATE + " text)";
 
         db.execSQL(sqlCreate);
     }
@@ -39,7 +40,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         String sqlInsert = "insert into " + TABLE_TASKS;
-        sqlInsert += " values (null, '" + toDo.getTask() + "' )";
+        sqlInsert += " values (null, '" + toDo.getTask();
+        sqlInsert += "', '" + toDo.getDueDate() + "' )";
 
         db.execSQL(sqlInsert);
         db.close();
@@ -65,26 +67,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
         ArrayList<ToDo> tasks = new ArrayList<>();
         while(cursor.moveToNext())
         {
-            ToDo toDo = new ToDo(Integer.parseInt(cursor.getString(0)), cursor.getString(1));
+            ToDo toDo = new ToDo(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
             tasks.add(toDo);
         }
         db.close();
         return tasks;
-    }
-
-    public ToDo selectById(int id)
-    {
-        String sqlQuery = "select * from " + TABLE_TASKS;
-        sqlQuery += " where " + ID + " = " + id;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(sqlQuery, null);
-
-        ToDo toDo = null;
-        if(cursor.moveToFirst())
-        {
-            toDo = new ToDo(Integer.parseInt(cursor.getString(0)), cursor.getString(1));
-        }
-        return toDo;
     }
 }
